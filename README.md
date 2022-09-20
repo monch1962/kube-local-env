@@ -71,6 +71,12 @@ You can follow the instructions at https://open-policy-agent.github.io/gatekeepe
 
 **NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster. If Gatekeeper is getting in the way or you don't need it for your use case, you can remove it by running `kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
+### (optional) Set up cert-manager
+
+You can follow the instructions at https://cert-manager.io/docs/, which are probably as simple as `kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml`
+
+Note that most clients' production certificate management will be based on external tools such as Hashicorp Vault. cert-manager can be configured to issue certificates from Hashicorp or other 3rd parties, but for a local dev environment it probably makes sense to use self-signed certificates instead. It should be possible to set up workflows that are portable with respect to certificate authorities, so the same workflow can be implemented in both a local dev environment as well as a production pipeline.
+
 ## FAQs
 
 ### How do I recover my Kube environment after a reboot?
