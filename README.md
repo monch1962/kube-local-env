@@ -63,6 +63,8 @@ You can now access Argo CD at `https://localhost:8080`
 
 Your Argo CD instance can be accessed via the username `admin` and a manufactured password. To get the password, run `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo` and your password will be displayed on the screen
 
+Alternately, you can also access your Argo CD instance using its command-line client. The client can be installed directly on your laptop by running `brew install argocd`, or you can include it in the dev container image.
+
 ### (optional) Set up Gatekeeper
 
 You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
