@@ -95,6 +95,14 @@ A vendor-provided, containerised conftest image is provided at https://hub.docke
 
 A vendor-provided, containerised checkov image is provided at https://hub.docker.com/r/bridgecrew/checkov
 
+### Testing container image signing, tagging & validation
+
+If you're building artifacts inside your local Kubernetes environment, you might also want to consider signing, tagging and validating those images inside your environment. This is now considered best practice for securing your software supply chain, and the workflow can be built and tested entirely within your local Kube dev environment before moving it to production.
+
+`cosign` (https://github.com/sigstore/cosign) is a very useful tool for signing/tagging/validating container images. By combining `cosign` with your own private Docker image registry (see below) it's possible to build and test a CI workflow that includes signing/tagging/validating the images you build.
+
+Note that it's possible to sign your built container images using secrets created within Kubernetes itself. Doing so could be used to ensure that your signed containers don't leak to production later. Kubernetes-signed keys can be used by cosign by running `cosign generate-key-pair k8s://namespace/secretName`, substituting your own namespace & secretName into the command.
+
 ### API functional testing
 
 Tools such as Karate can be run inside a container, and GitOps processes can be used to re-run Karate tests each time changes are applied to a repo.
