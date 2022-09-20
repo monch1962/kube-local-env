@@ -14,7 +14,7 @@ To get a Kubernetes environment setup for local development, I'm using the follo
 
 For development against that environment, I'm using the following tools:
 - VS Code
-- a development container with a broad set of tools installed that I don't need to install natively on my laptop
+- a development container with a broad set of tools installed that I don't need to install natively on my laptop. The config of the dev container is being captured at https://github.com/monch1962/vscode-dev-env-spike, and again it can be adapted to different work situations
 
 ### Why this combination of tools?
 
