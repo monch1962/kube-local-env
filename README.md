@@ -75,7 +75,9 @@ You can follow the instructions at https://open-policy-agent.github.io/gatekeepe
 
 You can follow the instructions at https://cert-manager.io/docs/, which are probably as simple as `kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml`
 
-Note that most clients' production certificate management will be based on external tools such as Hashicorp Vault. cert-manager can be configured to issue certificates from Hashicorp or other 3rd parties, but for a local dev environment it probably makes sense to use self-signed certificates instead. It should be possible to set up workflows that are portable with respect to certificate authorities, so the same workflow can be implemented in both a local dev environment as well as a production pipeline.
+Note that most clients' production certificate management will be based on external tools such as Hashicorp Vault. cert-manager can be configured to issue certificates from Hashicorp or other 3rd parties, but for a local dev environment it probably makes sense to use self-signed certificates instead. 
+
+It should be possible to set up certificate workflows that are agnostic with respect to certificate authority, so the same workflow can be implemented in both a local dev environment as well as a production pipeline. To do this, the certificate authority could be configured via e.g. environment variable, ConfigMap or kustomize, with a different value for each environment. That level of detail is best worked out for specific use cases.
 
 ## FAQs
 
