@@ -90,7 +90,9 @@ Tools such as OPA, conftest, and checkov are ideal for creating executable secur
 A local Kubernetes environment makes an ideal test platform for these security policies, particularly if OPA, conftest and/or checkov are provided as part of a development container. This allows a completely containerised environment to be used for this type of testing.
 
 Information on how to run OPA inside a container is provided at https://hub.docker.com/r/openpolicyagent/opa/
+
 A vendor-provided, containerised conftest image is provided at https://hub.docker.com/r/openpolicyagent/conftest
+
 A vendor-provided, containerised checkov image is provided at https://hub.docker.com/r/bridgecrew/checkov
 
 ### API functional testing
