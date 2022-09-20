@@ -103,6 +103,8 @@ If you're building artifacts inside your local Kubernetes environment, you might
 
 Note that it's possible to sign your built container images using secrets created within Kubernetes itself. Doing so could be used to ensure that your signed containers don't leak to production later. Kubernetes-signed keys can be used by cosign by running `cosign generate-key-pair k8s://namespace/secretName`, substituting your own namespace & secretName into the command.
 
+`cosign` itself can be run inside a container, using the image provided at https://hub.docker.com/r/bitnami/cosign/. This removes the need to install `cosign` natively on your laptop. If you go with this approach for a client engagement, it's best to build and store cosign's container image inside a controlled registry.
+
 ### API functional testing
 
 Tools such as Karate can be run inside a container, and GitOps processes can be used to re-run Karate tests each time changes are applied to a repo.
