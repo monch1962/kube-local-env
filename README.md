@@ -79,6 +79,30 @@ Note that most clients' production certificate management will be based on exter
 
 It should be possible to set up certificate workflows that are agnostic with respect to certificate authority, so the same workflow can be implemented in both a local dev environment as well as a production pipeline and configured to use the appropriate CA for each environment. To do this, the certificate authority could be configured via e.g. environment variable, ConfigMap or kustomize, with a different value for each environment. Implementing that level of detail is best worked out for specific use cases.
 
+## Suggested usage
+
+In general, you probably want to install your code to its own dedicated namespace on your local Kubernetes cluster. This allows you to use the same node names as will be used in production, and thus remove a key point of difference between your environments.
+
+### API functional testing
+
+Tools such as Karate can be run inside a container, and GitOps processes can be used to re-run Karate tests each time changes are applied to a repo.
+
+### UI functional testing
+
+UI automation tools such as Playwright and Puppeteer can be configured to run headless. Online patterns exist to run either tool in headless mode inside a container.
+
+It is possible to deploy e.g. Playwright on a separate node in your local Kubernetes environment. It's also possible to create a Kubernetes BatchJob to start this node and execute tests, and link it to a GitOps workflow so the BatchJob (i.e. your UI test cases) executes whenever new UI tests are merged to a specific repo branch.
+
+#### Testing against stubbed backends
+
+You may wish to deploy a tool such as Hoverfly (https://hoverfly.io) to its own namespace on your Kubernetes dev environment, then use Hoverfly as a stub engine when testing your application. This approach will allow you to implement version control and GitOps workflows for your Hoverfly configurations, separate from your application code and config.
+
+### Performance testing
+
+Various tools such as SpeedScale, Gatling, Locust, k6 are all well-suited to running in a Kubernetes environment. Information for configuring these tools in a Kubernetes context are available in several different places.
+
+Note that you will likely encounter problems if you try to run production-like performance workloads on a laptop Kubernetes environment. A local Kubernetes environment is best suited to writing, executing & debugging performance tests at very low volumes, then those volumes can be increased to run the same tests in a more production-sized environment.
+
 ## FAQs
 
 ### How do I recover my Kube environment after a reboot?
