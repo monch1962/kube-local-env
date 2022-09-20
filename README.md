@@ -62,3 +62,9 @@ Your Kubernetes cluster should now be recovered, including all namespaces and to
 podman and kind can be updated by running `brew upgrade && brew cleanup` on a Mac
 
 VS Code will alert you when a new version is available, and can then be upgraded inside VS Code itself.
+
+### How can I set up a private Docker registry inside my Kubernetes local environment?
+
+Depending on your workflow and use case, it can be handy to be able to push and pull Docker images to a private registry that you control. This allows you to build and test CI workflows, without potentially corrupting a shared Docker registry that others rely on.
+
+Follow the instructions at https://www.linuxtechi.com/setup-private-docker-registry-kubernetes/ to setup your own private Docker registry running inside your local Kubernetes cluster
