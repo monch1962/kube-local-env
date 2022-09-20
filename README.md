@@ -11,6 +11,7 @@ The approach documented here allows you to set up a private, local Kubernetes en
 - contention for access to shared dev/test/staging environments can be a real problem when many people are working on shared code bases
 - being able to tear down & rebuild your own private dev/test environment whenever you like can be very empowering for feature teams. 'Environment drift' is a real problem for shared dev/test environments, and this approach gives individual feature team members a workaround
 - the workflow for _deploying_ applications to Kubernetes can be quite complex to navigate from a dev/test perspective. That's because production Kubernetes platforms are typically tightly controlled. This solution allows you to deploy the same production controls to your local Kube dev/test environment, and ensure that your application deploys correctly before getting to a shared environment
+- if you follow generally-accepted best practice by deploying & testing your application in its own Kube namespace, you can immediately blow away a corrupted namespace using the command `kubectl delete namespace NAME_OF_YOUR_NAMESPACE`. This can be a simple way to ensure your application is being deployed to a pristine environment
 
 Finally, this solution _empowers_ developers & testers, and gives them more autonomy over their day-to-day work habits.
 
