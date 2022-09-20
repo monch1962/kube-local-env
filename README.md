@@ -37,6 +37,8 @@ Surprisingly, only 3 of these tools need to be installed directly on a laptop's 
 
 While `kubectl` would typically be installed natively as well (via e.g. `brew install kubectl` on a Mac), if necessary it can be run within podman via a Docker container such as `https://hub.docker.com/r/bitnami/kubectl`
 
+### Set up the cluster
+
 Install podman and kind by running `brew install podman kind` on a Mac
 
 Set up a Linux VM using podman by running `podman machine init`
@@ -47,6 +49,25 @@ Add the line `export KIND_EXPERIMENTAL_PROVIDER=podman` to the end of your `~/.z
 - this step is required as, by default, `kind` currently assumes it's running on top of Docker. This setting tells it to run on top of `podman` instead
 
 Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`
+
+### (optional) Set up Argo CD
+
+You can set up Argo CD by following the instructions at https://argo-cd.readthedocs.io/en/stable/getting_started/ A generic installation requires only 3 steps:
+- `kubectl create namespace argocd`
+- `kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml`
+- `kubectl port-forward svc/argocd-server -n argocd 8080:443`
+
+Note that the last step will lock up a terminal session, so maybe run `nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 &` instead if you don't want to keep a zombie session around.
+
+You can now access Argo CD at `https://localhost:8080`
+
+Your Argo CD instance can be accessed via the username `admin` and a manufactured password. To get the password, run `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo` and your password will be displayed on the screen
+
+### (optional) Set up Gatekeeper
+
+You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `https://open-policy-agent.github.io/gatekeeper/website/docs/install/`
+
+**NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster
 
 ## FAQs
 
