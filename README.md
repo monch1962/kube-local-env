@@ -1,5 +1,5 @@
 # kube-local-env
-Info about getting a local Kubernetes development environment installed on a laptop
+Info about getting a local Kubernetes development & test environment installed on a laptop
 
 ## Overview
 
@@ -83,6 +83,16 @@ It should be possible to set up certificate workflows that are agnostic with res
 
 In general, you probably want to install your code to its own dedicated namespace on your local Kubernetes cluster. This allows you to use the same node names as will be used in production, and thus remove a key point of difference between your environments.
 
+### Security policy development & testing
+
+Tools such as OPA, conftest, and checkov are ideal for creating executable security policies. Execution of these policies can be implemented within production CI pipelines, but it can be difficult to create a suitable test environment for these security policies.
+
+A local Kubernetes environment makes an ideal test platform for these security policies, particularly if OPA, conftest and/or checkov are provided as part of a development container. This allows a completely containerised environment to be used for this type of testing.
+
+Information on how to run OPA inside a container is provided at https://hub.docker.com/r/openpolicyagent/opa/
+A vendor-provided, containerised conftest image is provided at https://hub.docker.com/r/openpolicyagent/conftest
+A vendor-provided, containerised checkov image is provided at https://hub.docker.com/r/bridgecrew/checkov
+
 ### API functional testing
 
 Tools such as Karate can be run inside a container, and GitOps processes can be used to re-run Karate tests each time changes are applied to a repo.
@@ -120,6 +130,6 @@ VS Code will alert you when a new version is available, and can then be upgraded
 
 ### How can I set up a private Docker registry inside my Kubernetes local environment?
 
-Depending on your workflow and use case, it can be handy to be able to push and pull Docker images to a private registry that you control. This allows you to build and test CI workflows, without potentially corrupting a shared Docker registry that others rely on.
+Depending on your workflow and use case, it can be handy to be able to build, push and pull Docker images to a private registry that you control. This allows you to build and test CI workflows that include an artifact build step, without potentially corrupting a shared Docker registry that others rely on.
 
 Follow the instructions at https://www.linuxtechi.com/setup-private-docker-registry-kubernetes/ to setup your own private Docker registry running inside your local Kubernetes cluster
