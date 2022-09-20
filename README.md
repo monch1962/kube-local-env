@@ -154,6 +154,8 @@ podman and kind can be updated by running `brew upgrade && brew cleanup` on a Ma
 
 VS Code will alert you when a new version is available, and can then be upgraded inside VS Code itself.
 
+Tools such as `gatekeeper`, `argo-cd` and `cert-manager` that run inside the Kubernetes cluster will have their own process for deploying updates. You'll need to follow the instructions for each of these tools, which will typically involve a small number of `kubectl` commands
+
 ### How can I set up a private Docker registry inside my Kubernetes local environment?
 
 Depending on your workflow and use case, it can be handy to be able to build, push and pull Docker images to a private registry that you control. This allows you to build and test CI workflows that include an artifact build step, without potentially corrupting a shared Docker registry that others rely on.
