@@ -65,9 +65,9 @@ Your Argo CD instance can be accessed via the username `admin` and a manufacture
 
 ### (optional) Set up Gatekeeper
 
-You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `https://open-policy-agent.github.io/gatekeeper/website/docs/install/`
+You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
-**NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster
+**NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster. If Gatekeeper is getting in the way or you don't need it for your use case, you can remove it by running `kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
 ## FAQs
 
