@@ -3,6 +3,17 @@ Info about getting a local Kubernetes development & test environment installed o
 
 ## Overview
 
+More and more enterprise development work is moving to containers. Being able to build, test, and deploy containers in your own production-like, local Kubernetes environment can be very handy.
+
+The approach documented here allows you to set up a private, local Kubernetes environment on your own laptop. This helps address the following challenges:
+- there's often a steep Kubernetes learning curve for developers/testers who are new to the platform. Having your own local Kube environment allows you to experiment and learn by trial & error, which typically isn't appropriate when working in shared environments
+- production Kubernetes environments are typically hosted in a remote data centre, and making changes to those environments can take some time to execute. Having your own local Kube environment minimises these delays, and shortens the dev/test/fix/retry cycle
+- contention for access to shared dev/test/staging environments can be a real problem when many people are working on shared code bases
+- being able to tear down & rebuild your own private dev/test environment whenever you like can be very empowering for feature teams. 'Environment drift' is a real problem for shared dev/test environments, and this approach gives individual feature team members a workaround
+- the workflow for _deploying_ applications to Kubernetes can be quite complex to navigate from a dev/test perspective. That's because production Kubernetes platforms are typically tightly controlled. This solution allows you to deploy the same production controls to your local Kube dev/test environment, and ensure that your application deploys correctly before getting to a shared environment
+
+Finally, this solution _empowers_ developers & testers, and gives them more autonomy over their day-to-day work habits.
+
 ## Software components
 
 To get a Kubernetes environment setup for local development, I'm using the following tools to create and control the Kubernetes stack
@@ -66,6 +77,8 @@ Your Argo CD instance can be accessed via the username `admin` and a manufacture
 Alternately, you can also access your Argo CD instance using its command-line client. The client can be installed directly on your laptop by running `brew install argocd`, or you can include it in the dev container image.
 
 ### (optional) Set up Gatekeeper
+
+Gatekeeper is widely used in production environments to constrain what changes can be applied to a Kubernetes cluster. It can therefore be handy to have your own Gatekeeper instance in your local Kube dev environment, so you can confirm that deploying your application doesn't depend on changes that aren't permitted for a production deloyment. As always, it's better to find this out while working in your own environment rather than when you first try to deploy to production or another shared environment.
 
 You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
