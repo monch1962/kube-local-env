@@ -81,17 +81,31 @@ Alternately, you can also access your Argo CD instance using its command-line cl
 
 Gatekeeper is widely used in production environments to constrain what changes can be applied to a Kubernetes cluster. It can therefore be handy to have your own Gatekeeper instance in your local Kube dev environment, so you can confirm that deploying your application doesn't depend on changes that aren't permitted for a production deloyment. As always, it's better to find this out while working in your own environment rather than when you first try to deploy to production or another shared environment.
 
-You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run `kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
+You can follow the instructions at https://open-policy-agent.github.io/gatekeeper/website/docs/install/, or just run 
+`kubectl apply -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
-**NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster. If Gatekeeper is getting in the way or you don't need it for your use case, you can remove it by running `kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
+**NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster. If Gatekeeper is getting in the way or you don't need it for your use case, you can remove it by running 
+`kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
 
 ### (optional) Set up cert-manager
 
-You can follow the instructions at https://cert-manager.io/docs/, which are potentially as simple as running `kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml` on your laptop.
+You can follow the instructions at https://cert-manager.io/docs/, which are potentially as simple as running 
+`kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml`
+on your laptop.
 
 Note that most clients' production certificate management will be based on external certificate authorities such as Hashicorp Vault or LetsEncrypt. cert-manager can be configured to issue certificates from Hashicorp or other 3rd parties, but for a local dev environment it probably makes more sense to use self-signed certificates instead to reduce the number of external dependencies. 
 
 It should be possible to set up certificate workflows that are agnostic with respect to certificate authority, so the same workflow can be implemented in both a local dev environment as well as a production pipeline and configured to use the appropriate CA for each environment. To do this, the certificate authority could be configured via e.g. environment variable, ConfigMap or kustomize, with a different value for each environment. Implementing that level of detail is best worked out for specific use cases.
+
+### (optional) Set up Istio
+
+Instructions are at https://istio.io/latest/docs/setup/getting-started/, which are potentially as simple as running
+
+- `brew install istioctl` (Mac only)
+
+- `istioctl install --set profile=NAME -y` where NAME is one of `default`, `demo`, `minimal`, `external`, `empty`, `preview`
+
+- `kubectl label namespace default istio-injection=enabled` to automatically inject Envoy sidecars to every application being deployed. Note that this will only apply to the default namespace; if you're deploying to a custom namespace, you should change `default` to the name of your workspace
 
 ## Suggested usage
 
