@@ -54,6 +54,7 @@ While `kubectl` would typically be installed natively as well (via e.g. `brew in
 Install podman and kind by running `brew install podman kind` on a Mac
 
 Set up a Linux VM using podman by running `podman machine init -v $HOME:$HOME`
+- as Podman doesn't give you access to your complete file system by default, the above command will give Podman access to anything under your $HOME directory. Feel free to change it as you see fit, but this is probably a useful starting point for most use cases
 
 Start that Linux VM by running `podman machine start`
 
