@@ -53,7 +53,7 @@ While `kubectl` would typically be installed natively as well (via e.g. `brew in
 
 Install podman and kind by running `brew install podman kind` on a Mac
 
-Set up a Linux VM using podman by running `podman machine init`
+Set up a Linux VM using podman by running `podman machine init -v $HOME:$HOME`
 
 Start that Linux VM by running `podman machine start`
 
