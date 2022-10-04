@@ -108,6 +108,18 @@ Instructions are at https://istio.io/latest/docs/setup/getting-started/, which a
 
 - `kubectl label namespace default istio-injection=enabled` to automatically inject Envoy sidecars to every application being deployed. Note that this will only apply to the default namespace; if you're deploying to a custom namespace, you should change `default` to the name of your workspace
 
+### (optional) Set up secureCodeBox
+
+Instructions are at https://www.securecodebox.io/docs/getting-started/installation/, which are potentially as simple as running
+
+- `helm repo add secureCodeBox https://charts.securecodebox.io`
+
+- `kubectl create namespace securecodebox-system`
+
+- `helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator`
+
+From here, you can follow instructions at https://www.securecodebox.io/docs/scanners to set up different types of scans
+
 ## Suggested usage
 
 In general, you probably want to install your code to its own dedicated namespace on your local Kubernetes cluster. This allows you to use the same node names as will be used in production, and thus remove a key point of difference between your environments.
