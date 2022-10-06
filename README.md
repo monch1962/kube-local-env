@@ -81,14 +81,9 @@ To test your local registry is working, try:
 - `podman image search localhost:${REGISTRY_PORT}/ --tls-verify=false`
 
 If you want to clean up your registry later, you can:
-- # Remove container
-`podman container rm -f registry`
-
-- # Remove volume
-`podman volume rm registry`
-
-- # Remove image
-`podman image rm docker.io/library/registry:2`
+- `podman container rm -f registry`
+- `podman volume rm registry`
+- `podman image rm docker.io/library/registry:2`
 
 Personally I'd probably want to leave my local container images intact so I can use them again later, in which case you would simply run `podman container rm -f registry`
 
