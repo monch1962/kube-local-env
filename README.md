@@ -61,7 +61,7 @@ Start that Linux VM by running `podman machine start`
 Add the line `export KIND_EXPERIMENTAL_PROVIDER=podman` to the end of your `~/.zshrc` and/or `~/.bashrc` file on your Mac or Linux machine, then run `. ~/.zshrc` or `. ~/.bashrc` to expose that new environment variable
 - this step is required as, by default, `kind` currently assumes it's running on top of Docker. This setting tells it to run on top of `podman` instead
 
-Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`
+Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, then run `kubectl cluster-info --context kind-kind` to connect kubectl to your new cluster.
 
 ### (optional) Set up Argo CD
 
