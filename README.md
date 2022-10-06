@@ -63,6 +63,35 @@ Add the line `export KIND_EXPERIMENTAL_PROVIDER=podman` to the end of your `~/.z
 
 Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, then run `kubectl cluster-info --context kind-kind` to connect kubectl to your new cluster.
 
+### (optional) Set up a local container registry
+
+A local container registry can be very handy for development, where you may want to be able to quickly pull the same container images over & over without storing them where someone else can access them
+
+Setting up a local container registry is pretty simple
+- `export REGISTRY_PORT=5000`
+- `podman container run -dt -p ${REGISTRY_PORT}:5000 --name registry --volume registry:/var/lib/registry:Z docker.io/library/registry:2`
+  - if this fails with an error such as `Error: something went wrong with the request: "listen tcp :5000: bind: address already in use"`, then you may instead replacing the previous command with e.g. `export REGISTRY_PORT=5555` then re-run this step 
+
+That's it!
+
+To test your local registry is working, try:
+- `podman image pull docker.io/library/alpine`
+- `podman image tag docker.io/library/alpine:latest localhost:${REGISTRY_PORT}/alpine:latest`
+- `podman image push localhost:${REGISTRY_PORT}/alpine:latest --tls-verify=false`
+- `podman image search localhost:${REGISTRY_PORT}/ --tls-verify=false`
+
+If you want to clean up your registry later, you can:
+- # Remove container
+`podman container rm -f registry`
+
+- # Remove volume
+`podman volume rm registry`
+
+- # Remove image
+`podman image rm docker.io/library/registry:2`
+
+Personally I'd probably want to leave my local container images intact so I can use them again later, in which case you would simply run `podman container rm -f registry`
+
 ### (optional) Set up Argo CD
 
 You can set up Argo CD by following the instructions at https://argo-cd.readthedocs.io/en/stable/getting_started/ A generic installation requires only 3 steps:
