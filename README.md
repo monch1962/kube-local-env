@@ -144,6 +144,100 @@ Instructions are at https://www.securecodebox.io/docs/getting-started/installati
 
 From here, you can follow instructions at https://www.securecodebox.io/docs/scanners to set up different types of scans
 
+### (optional) Set up GCP PubSub emulator
+
+(approach pinched from https://medium.com/google-cloud/use-pub-sub-emulator-in-minikube-67cd1f289daf)
+
+Run 
+
+```
+$ kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-emulator-deployment
+  labels:
+    app: pubsub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pubsub
+  template:
+    metadata:
+      labels:
+        app: pubsub
+    spec:
+      containers:
+        - name: pubsub-emulator
+          image: gcr.io/google.com/cloudsdktool/cloud-sdk:414.0.0-emulators
+          command: ["gcloud", "beta", "emulators", "pubsub", "start"]
+          args: ["--project=abc", "--host-port=0.0.0.0:8085"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pubsub-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8008
+      targetPort: 8085
+      nodePort: 30001
+  selector:
+    app: pubsub
+EOF
+```
+
+This will create a deployment named `gcp-emulator-deployment` and a service named `pubsub-service`
+
+If you now run
+
+`$ kubectl get service`
+
+you should see something like
+
+```
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+kubernetes       ClusterIP   10.96.0.1      <none>        443/TCP          2d5h
+pubsub-service   NodePort    10.96.93.173   <none>        8008:30001/TCP   9m14s
+```
+
+If you then run
+
+`$ kubectl describe service pubsub-service`
+
+you should see something like
+
+```
+Name:                     pubsub-service
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=pubsub
+Type:                     NodePort
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.96.93.173
+IPs:                      10.96.93.173
+Port:                     <unset>  8008/TCP
+TargetPort:               8085/TCP
+NodePort:                 <unset>  30001/TCP
+Endpoints:                10.244.0.19:8085
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:                   <none>
+```
+
+This is saying that `10.244.0.19:8085` is the port/address of the pod, and `10.96.93.173` is the internal IP address of the service.
+
+If you now run
+
+`$ kubectl port-forward service/pubsub-service 8035:8008 &`
+
+your PubSub emulator instance will be externally accessible at 127.0.0.1:8035
+
 ## Suggested usage
 
 In general, you probably want to install your code to its own dedicated namespace on your local Kubernetes cluster. This allows you to use the same node names as will be used in production, and thus remove a key point of difference between your environments.
