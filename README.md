@@ -31,14 +31,14 @@ For development against that environment, I'm using the following tools:
 ### Why this combination of tools?
 
 Several reasons:
-- Docker Desktop now has licencing restrictions that can limit its use in certain business environments. Podman has no such licence restrictions
-- Podman runs rootless by default, preventing creating pods that contain privileged containers. This is far more palatable to corporate security than Docker's daemon, which requires root access
-- kubectl gives a command-line interface for applying changes to Kubernetes
-- gatekeeper gives the ability to impose controls on what happens inside a Kubernetes cluster
-- argocd gives a Kubernetes-specific solution for CI/CD, that runs entirely within a cluster. It coexists well with any non-Kubernetes CI/CD solutions
+- `Docker Desktop` now has licencing restrictions that can limit its use in certain business environments. Podman has no such licence restrictions
+- `podman` runs rootless by default, preventing creating pods that contain privileged containers. This is far more palatable to corporate security than Docker's daemon, which requires root access
+- `kubectl` gives a command-line interface for applying changes to Kubernetes
+- `gatekeeper` gives the ability to impose controls on what happens inside a Kubernetes cluster
+- `argocd` gives a Kubernetes-specific solution for CI/CD, that runs entirely within a cluster. It coexists well with any non-Kubernetes CI/CD solutions
 - using a development container means I don't need to install several tools natively on my laptop, and deal with corporate security concerns. A development container image can be locked down pretty tightly, and installed from a company's Artifactory registry if that's appropriate
 
-Any or all of these tools can be substituted for other tools, but this particular stack is a good fit for most of my use cases
+Any or all of these tools can be substituted for other tools, but this particular stack is a good fit for most of my use cases. In particular, if you're using Docker Desktop, you should be able to replace `podman` in the following instructions with `docker` (or `alias podman=docker` before running any of the following steps) and things should work fine
 
 ## Installation
 
