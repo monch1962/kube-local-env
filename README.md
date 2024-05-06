@@ -71,7 +71,7 @@ First set up a pod to contain all the comtainers. This allows us to manage both 
 - `podman pod create --label ollama-web --name ollama-web -p 11434:11434 -p 3000:8080`
 
 Next set up the Ollama container inside the pod, and start serving a LLM:
-- `podman run --pod ollama-web -d --name ollama -p 11434:11434 -v ollama_volume:/root/.ollama ollama/ollama:latest`
+- `podman run --pod ollama-web -d --name ollama -v ollama_volume:/root/.ollama ollama/ollama:latest`
 - `podman exec ollama ollama run phi3`
 - `podman exec ollama ollama run nomic-embed-text`
 
