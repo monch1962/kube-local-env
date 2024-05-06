@@ -51,7 +51,7 @@ While `kubectl` would typically be installed natively as well (via e.g. `brew in
 
 ### Set up the cluster
 
-Install podman and kind by running `brew install podman kind` on a Mac
+Install podman and kind by running `brew install podman kind` on a Mac. If you're not using a Mac, then follow the instructions at `https://podman.io/docs/installation` to get Podman installed on your system.
 
 Set up a Linux VM using podman by running `podman machine init -v $HOME:$HOME`
 - as Podman doesn't give you access to your complete file system by default, the above command will give Podman access to anything under your $HOME directory. Feel free to change it as you see fit, but this is probably a useful starting point for most use cases
