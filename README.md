@@ -63,6 +63,25 @@ Add the line `export KIND_EXPERIMENTAL_PROVIDER=podman` to the end of your `~/.z
 
 Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, then run `kubectl cluster-info --context kind-kind` to connect kubectl to your new cluster.
 
+### (optional) Run an Ollama LLM server & web UI
+
+Running your own Ollama server & web UI is becoming a fairly common use case.
+
+First set up a pod to contain all the comtainers. This allows us to manage both the Ollama server & the web UI together, as it probably doesn't make sense to manage them separately:
+- `podman pod create --label ollama-web --name ollama-web -p 11434:11434 -p 3000:3000`
+
+Next set up the Ollama container inside the pod, and start serving a LLM:
+- `podman run --pod ollama-web -d --name ollama -p 11434:11434 -v ollama_volume:/root/.ollama ollama/ollama:latest`
+- `podman exec ollama ollama run phi3`
+- `podman exec ollama ollama run nomic-embed-text`
+
+Now you can check that Ollama is running and accessible:
+- `curl http://localhost:11434/`
+and you should see `Ollama is running` as a response
+
+Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
+- `podman run --pod ollama-web -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
+
 ### (optional) Set up a local container registry
 
 A local container registry can be very handy for development, where you may want to be able to quickly pull the same container images over & over without storing them where someone else can access them
