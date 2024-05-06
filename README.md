@@ -84,7 +84,7 @@ and you should see `Ollama is running` as a response
 Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
 - `podman run --pod ollama-web -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
 
-You should now be able to access `http://localhost:3000` to get to Open WebUI. It will ask you to create a new username/password - this is because Open WebUI can support shared use across a group of people. As you're running Open WebUI locally, he username/password you enter is only stored locally - feel free to choose whatever username/password you like!
+You should now be able to go to `http://localhost:3000` to access Open WebUI. The first time you do it will ask you to create a new username/password - this is because Open WebUI can support shared use across a group of people. As you're running Open WebUI locally, the username/password you enter is only stored locally - feel free to choose whatever username/password you like! After your first session, you should be able to log back in to Open WebUI using the same username/password combination
 
 ---
 
