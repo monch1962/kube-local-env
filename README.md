@@ -63,6 +63,8 @@ Add the line `export KIND_EXPERIMENTAL_PROVIDER=podman` to the end of your `~/.z
 
 Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, then run `kubectl cluster-info --context kind-kind` to connect kubectl to your new cluster.
 
+---
+
 ### (optional) Run an Ollama LLM server & web UI
 
 Running your own Ollama server & web UI is becoming a fairly common use case.
@@ -81,6 +83,8 @@ and you should see `Ollama is running` as a response
 
 Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
 - `podman run --pod ollama-web -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
+
+---
 
 ### (optional) Set up a local container registry
 
@@ -106,6 +110,8 @@ If you want to clean up your registry later, you can:
 
 Personally I'd probably want to leave my local container images intact so I can use them again later, in which case you would simply run `podman container rm -f registry`
 
+---
+
 ### (optional) Set up Argo CD
 
 You can set up Argo CD by following the instructions at https://argo-cd.readthedocs.io/en/stable/getting_started/ A generic installation requires only 3 steps:
@@ -121,6 +127,8 @@ Your Argo CD instance can be accessed via the username `admin` and a manufacture
 
 Alternately, you can also access your Argo CD instance using its command-line client. The client can be installed directly on your laptop by running `brew install argocd`, or you can include it in the dev container image.
 
+---
+
 ### (optional) Set up Gatekeeper
 
 Gatekeeper is widely used in production environments to constrain what changes can be applied to a Kubernetes cluster. It can therefore be handy to have your own Gatekeeper instance in your local Kube dev environment, so you can confirm that deploying your application doesn't depend on changes that aren't permitted for a production deloyment. As always, it's better to find this out while working in your own environment rather than when you first try to deploy to production or another shared environment.
@@ -130,6 +138,8 @@ You can follow the instructions at https://open-policy-agent.github.io/gatekeepe
 
 **NOTE** by default, installing Gatekeeper in its out-of-box configuration will block you from simple tasks such as creating new namespaces. You'll need to create a set of OPA policies and apply them to Gatekeeper to allow you to do nearly anything with your cluster. If Gatekeeper is getting in the way or you don't need it for your use case, you can remove it by running 
 `kubectl delete -f https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/deploy/gatekeeper.yaml`
+
+---
 
 ### (optional) Set up cert-manager
 
@@ -141,6 +151,8 @@ Note that most clients' production certificate management will be based on exter
 
 It should be possible to set up certificate workflows that are agnostic with respect to certificate authority, so the same workflow can be implemented in both a local dev environment as well as a production pipeline and configured to use the appropriate CA for each environment. To do this, the certificate authority could be configured via e.g. environment variable, ConfigMap or kustomize, with a different value for each environment. Implementing that level of detail is best worked out for specific use cases.
 
+---
+
 ### (optional) Set up Istio
 
 Instructions are at https://istio.io/latest/docs/setup/getting-started/, which are potentially as simple as running
@@ -150,6 +162,8 @@ Instructions are at https://istio.io/latest/docs/setup/getting-started/, which a
 - `istioctl install --set profile=NAME -y` where NAME is one of `default`, `demo`, `minimal`, `external`, `empty`, `preview`
 
 - `kubectl label namespace default istio-injection=enabled` to automatically inject Envoy sidecars to every application being deployed. Note that this will only apply to the default namespace; if you're deploying to a custom namespace, you should change `default` to the name of your workspace
+
+---
 
 ### (optional) Set up secureCodeBox
 
@@ -162,6 +176,8 @@ Instructions are at https://www.securecodebox.io/docs/getting-started/installati
 - `helm --namespace securecodebox-system upgrade --install securecodebox-operator secureCodeBox/operator`
 
 From here, you can follow instructions at https://www.securecodebox.io/docs/scanners to set up different types of scans
+
+---
 
 ### (optional) Set up GCP PubSub emulator
 
