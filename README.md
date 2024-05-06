@@ -80,7 +80,7 @@ Now you can check that Ollama is running and accessible:
 and you should see `Ollama is running` as a response
 
 Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
-- `podman run --pod ollama-web -d -p 3000:8080 --add-host=host.docker.internal:host-gateway -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
+- `podman run --pod ollama-web -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
 
 ### (optional) Set up a local container registry
 
