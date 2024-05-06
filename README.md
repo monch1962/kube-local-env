@@ -68,7 +68,7 @@ Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, th
 Running your own Ollama server & web UI is becoming a fairly common use case.
 
 First set up a pod to contain all the comtainers. This allows us to manage both the Ollama server & the web UI together, as it probably doesn't make sense to manage them separately:
-- `podman pod create --label ollama-web --name ollama-web -p 11434:11434 -p 3000:3000`
+- `podman pod create --label ollama-web --name ollama-web -p 11434:11434 -p 3000:8080`
 
 Next set up the Ollama container inside the pod, and start serving a LLM:
 - `podman run --pod ollama-web -d --name ollama -p 11434:11434 -v ollama_volume:/root/.ollama ollama/ollama:latest`
