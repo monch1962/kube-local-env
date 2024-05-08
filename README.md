@@ -83,8 +83,8 @@ Next set up the Ollama container inside the pod, and start serving a LLM:
 - `podman exec ollama ollama run nomic-embed-text`
 
 Now you can check that Ollama is running and accessible:
-- `curl http://localhost:11434/`
-and you should see `Ollama is running` as a response
+- `curl http://localhost:11434/` and you should see `Ollama is running` as a response
+- `curl http://localhost:11434/api/tags` and you should see a list of the installed LLMs
 
 Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
 - `podman run --pod ollama-web -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
