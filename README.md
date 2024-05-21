@@ -69,16 +69,19 @@ Set up a Kubernetes cluster on the Linux VM by running `kind create cluster`, th
 
 Running your own Ollama server & web UI is becoming a fairly common use case.
 
-If you were previously running a pod named `ollama-kube` let's delete it so we can start with a clean slate:
-- `podman pod rm ollama-kube`
+First set up a network within Podman to allow Ollama to be accessed from other pods. This isn't strictly necessary, but is likely to come in handy later
+- `podman network create --driver bridge ollama-net`
+
+If you were previously running a pod named `ollama-web` let's delete it so we can start with a clean slate:
+- `podman pod rm ollama-web`
 
 First set up a pod to contain all the comtainers. This allows us to manage both the Ollama server & the OpenWeb UI together, as it probably doesn't make sense to manage them separately:
-- `podman pod create --label ollama-kube --name ollama-kube -p 11434:11434 -p 3000:8080`
+- `podman pod create --label ollama-web --name ollama-web -p 11434:11434 -p 3000:8080 --network ollama-net`
 
 Note that the above command will lead to Open WebUI being exposed on TCP/3000; if you wish to use a different port, then change the `3000` in the above line to a different value
 
 Next set up the Ollama container inside the pod, and start serving a LLM:
-- `podman run --pod ollama-kube -d --name ollama -v ollama_volume:/root/.ollama ollama/ollama:latest`
+- `podman run --pod ollama-web -d --name ollama -v ollama_volume:/root/.ollama ollama/ollama:latest`
 - `podman exec ollama ollama run phi3`
 - `podman exec ollama ollama run nomic-embed-text`
 
@@ -87,7 +90,7 @@ Now you can check that Ollama is running and accessible:
 - `curl http://localhost:11434/api/tags` and you should see a list of the installed LLMs
 
 Next set up Open WebUI for Ollama. This gives you a convenient UI to converse with Ollama's LLM:
-- `podman run --pod ollama-kube -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
+- `podman run --pod ollama-web -d -v open-webui:/app/backend/data --name open-webui --restart always ghcr.io/open-webui/open-webui:main`
 
 You should now be able to go to `http://localhost:3000` to access Open WebUI (if you changed this port in the above instructions, then navigate to the port number you used instead). The first time you connect to Open WebUI it will ask you to create a new username/password - this is because Open WebUI supports shared use across a group of people. As you're running Open WebUI locally, the username/password you enter is only stored locally - feel free to choose whatever username/password you like! After your first session, you should be able to log back in to Open WebUI using the same username/password combination
 
